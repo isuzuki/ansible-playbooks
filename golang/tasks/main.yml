@@ -1,0 +1,6 @@
+---
+- name: Install epel yum repository
+  yum: name="http://ftp.riken.jp/Linux/fedora/epel/6/i386/epel-release-6-8.noarch.rpm"
+
+- name: Install golang
+  yum: name=golang state=present
