@@ -1,0 +1,18 @@
+---
+- name: Checkout phalcon repository
+  git: repo=https://github.com/phalcon/cphalcon.git depth=1 dest={{ source_dest_path }} version={{ version }} accept_hostkey=yes
+
+- name: Build phalcon
+  shell: ./install chdir={{ source_dest_path }}/build
+
+- name: Copy phalcon php.ini
+  copy: src=phalcon.ini dest=/etc/php.d/phalcon.ini
+
+- name: Checkout phalcon devtools
+  git: repo=https://github.com/phalcon/phalcon-devtools.git dest=/usr/share/phalcon-devtools accept_hostkey=yes
+
+- name: Execute install shellscript
+  shell: ./phalcon.sh chdir=/usr/share/phalcon-devtools
+
+- name: Symlink phalcon devtools
+  file: src=/usr/share/phalcon-devtools/phalcon.php dest=/usr/bin/phalcon state=link
