@@ -23,3 +23,6 @@
 
 - name: Start and Enable php-fpm
   service: name=php-fpm state=started enabled=yes
+
+- name: Copy custom php-fpm.conf
+  copy: src=php-fpm/zz-app.conf dest=/etc/php-fpm.d/zz-app.conf
