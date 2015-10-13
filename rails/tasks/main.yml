@@ -1,0 +1,9 @@
+---
+- name: Install dependencies
+  yum: pkg={{item}} state=present
+  with_items:
+    - libxml2-devel
+    - libxslt-devel
+
+- name: Install Rails
+  shell: bash -lc "gem install rails -- --use-system-libraries --no-rdoc --no-ri"

@@ -1,0 +1,6 @@
+---
+- name: Install Sass
+  shell: bash -lc "gem install sass"
+
+- name: Install Compass
+  shell: bash -lc "gem install compass"
