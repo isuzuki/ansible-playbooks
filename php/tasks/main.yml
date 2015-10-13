@@ -20,6 +20,7 @@
     - php-mysql
     - php-opcache
     - php-xml
+    - php-pecl-xdebug
 
 - name: Start and Enable php-fpm
   service: name=php-fpm state=started enabled=yes
