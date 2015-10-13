@@ -5,6 +5,7 @@
     - libffi-devel
     - zlib-devel
     - openssl-devel
+    - readline-devel
 
 - name: Install rbenv
   git: repo=https://github.com/sstephenson/rbenv.git dest={{ rbenv_root }}
