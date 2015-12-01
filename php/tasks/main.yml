@@ -27,3 +27,6 @@
 
 - name: Copy custom php-fpm.conf
   copy: src=php-fpm/zz-app.conf dest=/etc/php-fpm.d/zz-app.conf
+
+- name: Install phpunit
+  get_url: url=https://phar.phpunit.de/phpunit.phar dest=/usr/local/bin/phpunit mode=555
