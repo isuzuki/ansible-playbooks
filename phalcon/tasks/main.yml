@@ -2,8 +2,22 @@
 - name: Checkout phalcon repository
   git: repo=https://github.com/phalcon/cphalcon.git depth=1 dest={{ source_dest_path }} version=phalcon-{{ version }} accept_hostkey=yes
 
-- name: Build phalcon
+- name: Get php extension directory
+  shell: php -r "echo ini_get('extension_dir');"
+  register: php_extension_dir
+  always_run: yes
+  changed_when: false
+
+- name: Check installed phalcon extension
+  shell: ls {{ php_extension_dir.stdout }}/phalcon.so
+  register: phalcon_extension_exists
+  always_run: yes
+  changed_when: false
+  ignore_errors: yes
+
+- name: Install phalcon
   shell: ./install chdir={{ source_dest_path }}/build
+  when: phalcon_extension_exists.stdout == ""
 
 - name: Copy phalcon php.ini
   copy: src=phalcon.ini dest=/etc/php.d/phalcon.ini
@@ -11,8 +25,16 @@
 - name: Checkout phalcon devtools
   git: repo=https://github.com/phalcon/phalcon-devtools.git depth=1 dest=/usr/share/phalcon-devtools version={{ version }} accept_hostkey=yes
 
+- name: Phalcon devtools exists
+  shell: which phalcon
+  register: phalcon_devtool_exists
+  always_run: yes
+  changed_when: false
+  ignore_errors: yes
+
 - name: Execute install shellscript
   shell: ./phalcon.sh chdir=/usr/share/phalcon-devtools
+  when: phalcon_devtool_exists.stdout == ""
 
 - name: Symlink phalcon devtools
   file: src=/usr/share/phalcon-devtools/phalcon.php dest=/usr/bin/phalcon state=link
